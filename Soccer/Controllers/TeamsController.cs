@@ -16,9 +16,9 @@ namespace Soccer.Controllers
         // GET: Teams
         public async Task<IActionResult> Index()
         {
-              return _context.Teams != null ? 
-                          View(await _context.Teams.ToListAsync()) :
-                          Problem("Entity set 'SoccerContext.Teams'  is null.");
+            return _context.Teams != null ?
+                        View(await _context.Teams.ToListAsync()) :
+                        Problem("Entity set 'SoccerContext.Teams'  is null.");
         }
 
         // GET: Teams/Details/5
@@ -50,9 +50,13 @@ namespace Soccer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Coach")] Teams teams)
         {
-            _context.Add(teams);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                _context.Add(teams);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(teams);
         }
 
         // GET: Teams/Edit/5
@@ -80,23 +84,27 @@ namespace Soccer.Controllers
             {
                 return NotFound();
             }
-            try
+            if (ModelState.IsValid)
             {
-                _context.Update(teams);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TeamsExists(teams.Id))
+                try
                 {
-                    return NotFound();
+                    _context.Update(teams);
+                    await _context.SaveChangesAsync();
                 }
-                else
+                catch (DbUpdateConcurrencyException)
                 {
-                    throw;
+                    if (!TeamsExists(teams.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
+                return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(Index));
+            return View(teams);
         }
 
         // GET: Teams/Delete/5
@@ -131,14 +139,14 @@ namespace Soccer.Controllers
             {
                 _context.Teams.Remove(teams);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool TeamsExists(int id)
         {
-          return (_context.Teams?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Teams?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
