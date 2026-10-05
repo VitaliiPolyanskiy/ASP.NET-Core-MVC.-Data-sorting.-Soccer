@@ -1,36 +1,37 @@
-﻿@model Soccer.Models.Teams
+﻿@model Soccer.Models.Team
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Створити";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4>Teams</h4>
+<h4>Додати нову команду</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            
+            <div class="mb-3">
+                <label asp-for="Name" class="control-label fw-bold"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Coach" class="control-label"></label>
+            
+            <div class="mb-3">
+                <label asp-for="Coach" class="control-label fw-bold"></label>
                 <input asp-for="Coach" class="form-control" />
                 <span asp-validation-for="Coach" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            
+            <div class="mb-3">
+                <input type="submit" value="Створити" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-outline-secondary ms-2">Повернутися до списку</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

@@ -1,60 +1,80 @@
-﻿@model IEnumerable<Soccer.Models.Players>
+﻿@model IEnumerable<Soccer.Models.Player>
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Гравці";
 }
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewBag.NameSort">
-                    Name
-                </a>
-            </th>
-            <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewBag.AgeSort">
-                    Age
-                </a>
-            </th>
-            <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewBag.PositionSort">
-                    Position
-                </a>
-            </th>
-            <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewBag.TeamsSort">
-                    Team
-                </a>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="m-0">Список гравців</h2>
+    <a asp-action="Create" class="btn btn-success shadow-sm fw-bold">
+        + Додати нового гравця
+    </a>
+</div>
+
+<div class="table-responsive shadow-sm rounded bg-white">
+    <table class="table table-hover table-striped align-middle mb-0">
+        <thead class="table-dark">
+            <tr>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewBag.NameSort" class="text-white text-decoration-none hover-opacity">
+                        Ім'я ↕
+                    </a>
+                </th>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewBag.AgeSort" class="text-white text-decoration-none hover-opacity">
+                        Вік ↕
+                    </a>
+                </th>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewBag.PositionSort" class="text-white text-decoration-none hover-opacity">
+                        Позиція ↕
+                    </a>
+                </th>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewBag.TeamsSort" class="text-white text-decoration-none hover-opacity">
+                        Клуб ↕
+                    </a>
+                </th>
+                <th class="text-end">Дії</th>
+            </tr>
+        </thead>
+        <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                <td>
+                <td class="fw-bold text-primary">
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @(DateTime.Now.Year - item.BirthYear)
+                    <!-- Розрахунок віку залишається за поточним роком -->
+                    <span class="badge bg-light text-dark border">
+                        @(DateTime.Now.Year - item.BirthYear) років
+                    </span>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Position)
+                    <span class="badge bg-secondary">
+                        @Html.DisplayFor(modelItem => item.Position)
+                    </span>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Team.Name)
+                    @Html.DisplayFor(modelItem => item.Team!.Name)
                 </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <td class="text-end">
+                    <div class="btn-group" role="group">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">Деталі</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning">Редагувати</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Видалити</a>
+                    </div>
                 </td>
             </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-secondary mt-3 shadow-sm">
+        Список гравців наразі порожній. Додайте першого гравця.
+    </div>
 }
-    </tbody>
-</table>

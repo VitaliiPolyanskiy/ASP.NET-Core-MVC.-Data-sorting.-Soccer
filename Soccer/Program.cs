@@ -3,18 +3,18 @@ using Soccer.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Получаем строку подключения из файла конфигурации
+// Отримуємо рядок підключення з файлу конфігурації
 string? connection = builder.Configuration.GetConnectionString("DefaultConnection");
 
-// добавляем контекст ApplicationContext в качестве сервиса в приложение
+// Додаємо контекст SoccerContext як сервіс у програму
 builder.Services.AddDbContext<SoccerContext>(options => options.UseSqlServer(connection));
 
-// Добавляем сервисы MVC
+// Додаємо сервіси MVC
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-app.UseStaticFiles(); // обрабатывает запросы к файлам в папке wwwroot
+app.UseStaticFiles(); // Обробляє запити до файлів у папці wwwroot
 
 app.MapControllerRoute(
     name: "default",

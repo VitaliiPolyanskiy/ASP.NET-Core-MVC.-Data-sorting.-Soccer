@@ -1,14 +1,13 @@
-﻿namespace Soccer.Models
+﻿namespace Soccer.Models;
+
+public enum SortState
 {
-    public enum SortState
-    {
-        NameAsc,    // по имени игрока по возрастанию
-        NameDesc,   // по имени игрока по убыванию
-        AgeAsc, // по возрасту по возрастанию
-        AgeDesc,    // по возрасту по убыванию
-        PositionAsc, // по позиции по возрастанию
-        PositionDesc,    // по позиции по убыванию
-        TeamAsc, // по клубу по возрастанию
-        TeamDesc // по клубу по убыванию
-    }
+    NameAsc,      // за ім'ям гравця (зростання)
+    NameDesc,     // за ім'ям гравця (спадання)
+    AgeAsc,       // за віком (зростання)
+    AgeDesc,      // за віком (спадання)
+    PositionAsc,  // за позицією (зростання)
+    PositionDesc, // за позицією (спадання)
+    TeamAsc,      // за клубом (зростання)
+    TeamDesc      // за клубом (спадання)
 }
